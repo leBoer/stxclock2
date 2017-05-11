@@ -1,0 +1,34 @@
+<div class="row test-row">
+  <div class="col-12 col-md-4 full-width" *ngFor="let exchange of exchanges" [ngClass]="{'module-open': exchange.open_status, 'module-closed': !exchange.open_status}">
+    <div class="row test-row2">
+      <div class="col-7 col-md-12 name-block">
+        <div class="row">
+          <div class="col-12 name-div">
+            <p class="name">{{exchange.name}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 status-div">
+            <p class="status status-open" *ngIf="exchange.open_status == true">
+              <i class="fa fa-circle-o" aria-hidden="true"></i>
+              Open and closing in:
+            </p>
+            <p class="status status-closed" *ngIf="exchange.open_status == false">
+              <i class="fa fa-circle-o" aria-hidden="true"></i>
+              Closed and opening in:
+            </p>
+          </div>
+        </div>
+        <div class="row time-div">
+          <p class="current-time">Current time: {{exchange.time}}</p>
+        </div>
+      </div>
+      <div class="col-5 col-md-12 countdown-block">
+        <p class="countdown">{{exchange.remaining}}</p>
+      </div>
+      <div class="hidden-sm-down col-md-12">
+        <p class="current-time-md">Local time: {{exchange.time}}</p>
+      </div>
+    </div>
+  </div>
+</div>

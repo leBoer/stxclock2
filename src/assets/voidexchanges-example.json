@@ -1,0 +1,142 @@
+{
+    "count": 6,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "url": "https://stxclockapi.com/stxclock/api/exchanges/1.json",
+            "ticker": "NYSE",
+            "id": 1,
+            "name": "New York Stock Exchange",
+            "location": "United States",
+            "timezone": "America/New_York",
+            "opening_time": "09:30:00",
+            "closing_time": "16:00:00",
+            "weekend": [
+                "Saturday",
+                "Sunday"
+            ],
+            "holidays": [
+                "May 29, 2017",
+                "September 04, 2017",
+                "December 25, 2017"
+            ],
+            "owner": "christian-admin"
+        },
+        {
+            "url": "https://stxclockapi.com/stxclock/api/exchanges/2.json",
+            "ticker": "NASDAQ",
+            "id": 2,
+            "name": "NASDAQ",
+            "location": "United States",
+            "timezone": "America/New_York",
+            "opening_time": "09:30:00",
+            "closing_time": "16:00:00",
+            "weekend": [
+                "Saturday",
+                "Sunday"
+            ],
+            "holidays": [
+                "May 29, 2017",
+                "July 04, 2017",
+                "September 04, 2017",
+                "November 23, 2017",
+                "December 25, 2017"
+            ],
+            "owner": "christian-admin"
+        },
+        {
+            "url": "https://stxclockapi.com/stxclock/api/exchanges/3.json",
+            "ticker": "OSE",
+            "id": 3,
+            "name": "Oslo Stock Exchange",
+            "location": "Norway",
+            "timezone": "Europe/Oslo",
+            "opening_time": "09:00:00",
+            "closing_time": "16:30:00",
+            "weekend": [
+                "Saturday",
+                "Sunday"
+            ],
+            "holidays": [
+                "May 17, 2017",
+                "May 25, 2017",
+                "June 05, 2017",
+                "December 25, 2017",
+                "December 26, 2017"
+            ],
+            "owner": "christian-admin"
+        },
+        {
+            "url": "https://stxclockapi.com/stxclock/api/exchanges/4.json",
+            "ticker": "LSE",
+            "id": 4,
+            "name": "London Stock Exchange",
+            "location": "United Kingdom",
+            "timezone": "Europe/London",
+            "opening_time": "08:00:00",
+            "closing_time": "16:30:00",
+            "weekend": [
+                "Saturday",
+                "Sunday"
+            ],
+            "holidays": [
+                "May 29, 2017",
+                "August 28, 2017",
+                "December 25, 2017",
+                "December 26, 2017"
+            ],
+            "owner": "christian-admin"
+        },
+        {
+            "url": "https://stxclockapi.com/stxclock/api/exchanges/5.json",
+            "ticker": "SSE",
+            "id": 5,
+            "name": "Shanghai Stock Exchange",
+            "location": "China",
+            "timezone": "Asia/Shanghai",
+            "opening_time": "09:30:00",
+            "closing_time": "15:00:00",
+            "weekend": [
+                "Saturday",
+                "Sunday"
+            ],
+            "holidays": [
+                "May 29, 2017",
+                "May 30, 2017",
+                "October 02, 2017",
+                "October 03, 2017",
+                "October 04, 2017",
+                "October 05, 2017",
+                "October 06, 2017"
+            ],
+            "owner": "christian-admin"
+        },
+        {
+            "url": "https://stxclockapi.com/stxclock/api/exchanges/6.json",
+            "ticker": "TSE",
+            "id": 6,
+            "name": "Tokyo Stock Exchange",
+            "location": "Japan",
+            "timezone": "Asia/Tokyo",
+            "opening_time": "09:00:00",
+            "closing_time": "15:00:00",
+            "weekend": [
+                "Saturday",
+                "Sunday"
+            ],
+            "holidays": [
+                "July 17, 2017",
+                "August 11, 2017",
+                "September 18, 2017",
+                "September 23, 2017",
+                "October 09, 2017",
+                "November 03, 2017",
+                "November 23, 2017",
+                "December 23, 2017",
+                "December 31, 2017"
+            ],
+            "owner": "christian-admin"
+        }
+    ]
+}

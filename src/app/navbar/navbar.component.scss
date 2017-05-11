@@ -1,0 +1,23 @@
+h1 {
+    font-size: 2em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.navbar {
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 2em;
+    max-width: 1600px;
+    background-color: #CAEBF2;
+}
+.col-12 {
+    max-width: 100%;
+    margin-bottom: 0.5em;
+    height: 3.5em;
+    background-color: #CAEBF2;
+}
+/*iPad and up*/
+@media screen and (min-width: 768px) {
+    .row {
+        margin-bottom: 3em;
+    }
+}
