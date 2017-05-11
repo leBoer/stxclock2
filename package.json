@@ -9,7 +9,7 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
-    "prestart": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
+    "prestart": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc",
     "start": "node dist/server.js",
     "watch": "webpack --watch"
   },
