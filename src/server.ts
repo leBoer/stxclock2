@@ -46,6 +46,7 @@ ROUTES.forEach(route => {
       res: res
     });
     console.timeEnd(`GET: ${req.originalUrl}`);
+    console.log('test');
   });
 });
 
