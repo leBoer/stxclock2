@@ -7,12 +7,9 @@
     "npm": "3.10.10"
   },
   "scripts": {
-    "ng": "ng",
-    "serve": "ng serve",
     "preinstall": "npm install pm2 -g",
     "prestart": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
-    "start": "pm2 start --attach dist/server.js",
-    "watch": "webpack --watch"
+    "start": "pm2 start --attach dist/server.js"
   },
   "private": true,
   "dependencies": {
