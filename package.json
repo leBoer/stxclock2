@@ -7,6 +7,7 @@
     "npm": "3.10.10"
   },
   "scripts": {
+    "ng": "ng",
     "preinstall": "npm install pm2 -g",
     "postinstall": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
     "start": "pm2 start --attach dist/server.js"
