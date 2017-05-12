@@ -10,7 +10,8 @@
       "assets": [
         "assets",
         "favicon.ico",
-        ".nvmrc"
+        ".nvmrc",
+        "google217663f5bd585a9d.html"
       ],
       "index": "index.html",
       "main": "main.ts",
