@@ -9,8 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        ".nvmrc",
+        "favicon.png",
         "google217663f5bd585a9d.html"
       ],
       "index": "index.html",
