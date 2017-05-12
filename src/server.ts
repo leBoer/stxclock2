@@ -29,6 +29,15 @@ app.set('views', 'src')
 
 app.use('/', express.static('dist', {index: false}));
 
+// routeCache
+var routeCache = require('route-cache');
+
+// cache route for 20 seconds
+app.get('/index', routeCache.cacheSeconds(20), function(req, res){
+  console.log('You will only see this every 20 seconds.');
+  res.send('this response will be cached');
+});
+
 ROUTES.forEach(route => {
   app.get(route, (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
