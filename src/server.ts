@@ -4,7 +4,6 @@ import { renderModuleFactory } from '@angular/platform-server'
 import { enableProdMode } from '@angular/core'
 import { AppServerModuleNgFactory } from '../dist/ngfactory/src/app/app.server.module.ngfactory'
 import * as express from 'express';
-// import * as routeCache from 'route-cache';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -34,17 +33,6 @@ app.set('views', 'src')
 
 app.use('/', express.static('dist', {index: false}));
 
-// app.get('/', cache.cacheSeconds(10), function(req, res){
-//   // do your dirty work here...
-//   console.log('you will only see this every 10 seconds.');
-//   res.render('../dist/index', {
-//     req: req,
-//     res: res
-//   });
-//   return req.originalUrl;
-//   // res.send('this response will be cached');
-// });
-
 ROUTES.forEach(route => {
   app.get(route, cache.cacheSeconds(60), function(req, res) {
     console.time(`GET: ${req.originalUrl}`);
@@ -56,17 +44,6 @@ ROUTES.forEach(route => {
     console.timeEnd(`GET: ${req.originalUrl}`);
   });
 });
-
-// ROUTES.forEach(route => {
-//   app.get(route, (req, res) => {
-//     console.time(`GET: ${req.originalUrl}`);
-//     res.render('../dist/index', {
-//       req: req,
-//       res: res
-//     });
-//     console.timeEnd(`GET: ${req.originalUrl}`);
-//   });
-// });
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
