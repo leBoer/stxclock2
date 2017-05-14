@@ -10,16 +10,16 @@
     "ng": "ng",
     "serve": "ng serve",
     "preinstall": "npm install pm2 -g",
-    "postinstall": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
-    "start": "pm2 start --attach dist/server.js"
+    "prestart": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
+    "start": "pm2 start dist/server.js -f"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^4.0.1",
     "@angular/cli": "1.0.0",
-    "@angular/compiler-cli": "^4.0.1",
     "@angular/common": "^4.0.1",
     "@angular/compiler": "^4.0.1",
+    "@angular/compiler-cli": "^4.0.1",
     "@angular/core": "^4.0.1",
     "@angular/forms": "^4.0.1",
     "@angular/http": "^4.0.1",
@@ -43,6 +43,7 @@
     "moment": "2.18.1",
     "moment-timezone": "0.5.13",
     "pm2": "^2.4.6",
+    "route-cache": "^0.4.1",
     "rxjs": "^5.3.0",
     "ts-loader": "^2.0.3",
     "ts-node": "^3.0.2",
