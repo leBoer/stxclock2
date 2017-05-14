@@ -46,8 +46,9 @@ app.use('/', express.static('dist', {index: false}));
 // });
 
 ROUTES.forEach(route => {
-  app.get(route, cache.cacheSeconds(10), function(req, res) {
+  app.get(route, cache.cacheSeconds(60), function(req, res) {
     console.time(`GET: ${req.originalUrl}`);
+    console.log('you will only see this every 60 seconds');
     res.render('../dist/index', {
       req: req,
       res: res
