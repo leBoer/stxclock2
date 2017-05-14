@@ -16,6 +16,9 @@ enableProdMode();
 
 const app = express();
 const cache = require('route-cache');
+const compression = require('compression');
+
+app.use(compression());
 
 let template = readFileSync(join(__dirname, '..', 'dist', 'index.html')).toString();
 
