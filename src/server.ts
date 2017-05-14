@@ -42,19 +42,8 @@ app.use('/', express.static('dist', {index: false}));
 //   // res.send('this response will be cached');
 // });
 
-ROUTES.forEach(route => {
-  app.get(route, cache.cacheSeconds(10), function(req, res) {
-    console.time(`GET: ${req.originalUrl}`);
-    res.render('../dist/index', {
-      req: req,
-      res: res
-    });
-    console.timeEnd(`GET: ${req.originalUrl}`);
-  });
-});
-
 // ROUTES.forEach(route => {
-//   app.get(route, (req, res) => {
+//   app.get(route, cache.cacheSeconds(10), function(req, res) {
 //     console.time(`GET: ${req.originalUrl}`);
 //     res.render('../dist/index', {
 //       req: req,
@@ -63,6 +52,17 @@ ROUTES.forEach(route => {
 //     console.timeEnd(`GET: ${req.originalUrl}`);
 //   });
 // });
+
+ROUTES.forEach(route => {
+  app.get(route, (req, res) => {
+    console.time(`GET: ${req.originalUrl}`);
+    res.render('../dist/index', {
+      req: req,
+      res: res
+    });
+    console.timeEnd(`GET: ${req.originalUrl}`);
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
