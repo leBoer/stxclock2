@@ -10,8 +10,8 @@
     "ng": "ng",
     "serve": "ng serve",
     "preinstall": "npm install pm2 -g",
-    "postinstall": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
-    "start": "node dist/server.js"
+    "prestart": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
+    "start": "pm2 start --attach dist/server.js"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +35,7 @@
     "bootstrap": "next",
     "compression": "^1.6.2",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-rename": "^1.2.2",
