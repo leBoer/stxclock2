@@ -10,7 +10,8 @@
       "assets": [
         "assets",
         "favicon.png",
-        "google217663f5bd585a9d.html"
+        "google217663f5bd585a9d.html",
+        "sitemap.xml"
       ],
       "index": "index.html",
       "main": "main.ts",
