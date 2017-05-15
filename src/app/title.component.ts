@@ -16,7 +16,7 @@ export class TitleComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         switch (event.urlAfterRedirects) {
           case '/':
-            this.title = 'Home Page';
+            this.title = 'STXClock.com - Countdown for Stock Exchanges';
             break;
           case '/about':
             this.title = 'About Page';

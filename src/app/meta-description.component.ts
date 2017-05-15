@@ -16,10 +16,10 @@ export class MetaDescriptionComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         switch (event.urlAfterRedirects) {
           case '/':
-            this.content = 'Home Page Description';
+            this.content = 'STXClock displays a countdown to opening and closing times of stock exchanges.';
             break;
           case '/about':
-            this.content = 'About Page Description';
+            this.content = 'About Page';
             break;
         }
       }
