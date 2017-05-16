@@ -31,7 +31,6 @@ export { AppComponent, TitleComponent, MetaDescriptionComponent };
     AppComponent,
     NavbarComponent,
     TitleComponent,
-    // SortPipe,
     MetaDescriptionComponent
   ],
   bootstrap: [AppComponent, TitleComponent, MetaDescriptionComponent]

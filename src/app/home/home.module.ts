@@ -9,15 +9,17 @@ import { homeRoutes } from './home-router.module';
 
 import { ClockService } from '../clock.service';
 import { ExchangeService } from '../exchange.service';
+import { SortPipe } from '../sort.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(homeRoutes)
+    RouterModule.forChild(homeRoutes),
   ],
   declarations: [
     HomeMainComponent,
-    HomePageComponent
+    HomePageComponent,
+    SortPipe
   ],
   providers: [ExchangeService, ClockService]
 })
