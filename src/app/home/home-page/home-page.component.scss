@@ -3,6 +3,31 @@
 p {
   color: #A9A9A9;
 }
+li {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 0.7em;
+  color: #A9A9A9;
+}
+h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #757571;
+}
+ul {
+  margin-left: 5px;
+}
+.holidays p {
+  font-size: 0.8em;
+  margin: 0;
+}
+.holiday-div {
+  padding: 0;
+}
+.ind-holidays {
+  padding: 0;
+}
 .row {
   max-width: 1600px;
   align-content: middle;

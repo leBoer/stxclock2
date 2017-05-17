@@ -161,12 +161,23 @@ export class ClockService {
         }
     }
 
+    // Checks if a holiday is in the future
+    checkFutureHoliday(exchange, day): boolean {
+        var exchangeDate = this.nonUTCTime(this.exchanges[exchange].timezone);
+        console.log(exchangeDate);
+        var holiday = moment(day, 'MMMM DD, YYYY');
+        console.log(holiday);
+        console.log(holiday.diff(exchangeDate, 'days'));
+        var diffDays = holiday.diff(exchangeDate, 'days');
+        if (diffDays < 0) {
+            return false;
+        } else if (diffDays >= 0) {
+            return true;
+        }
+    }
+
     testingfunction(): any {
         // this.weekBuilder(0);
-        console.log(this.exchanges[0].week);
-        console.log(this.exchanges);
-        for (var i = 0; i < this.exchanges.length; i++) {
-            console.log(this.exchanges[i].week);
-        }
+        console.log(this.checkFutureHoliday(0, "May 18, 2017"));
     }
 }
