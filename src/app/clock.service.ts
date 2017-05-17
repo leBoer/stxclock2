@@ -161,23 +161,38 @@ export class ClockService {
         }
     }
 
-    // Checks if a holiday is in the future
+    // Checks if a holiday is in the future, and less than 30 days away
     checkFutureHoliday(exchange, day): boolean {
         var exchangeDate = this.nonUTCTime(this.exchanges[exchange].timezone);
-        console.log(exchangeDate);
         var holiday = moment(day, 'MMMM DD, YYYY');
-        console.log(holiday);
-        console.log(holiday.diff(exchangeDate, 'days'));
         var diffDays = holiday.diff(exchangeDate, 'days');
         if (diffDays < 0) {
             return false;
-        } else if (diffDays >= 0) {
+        } else if (diffDays >= 0 && diffDays <= 30) {
             return true;
         }
     }
 
+    // Builds an array for the 30-day holiday calendar
+    holidayBuilder(): void {
+        for (var e = 0; e < this.exchanges.length; e++) {
+            this.exchanges[e].thirty =[];
+            for (var h = 0; h < this.exchanges[e].holidays.length; h++) {
+                if (this.checkFutureHoliday(e, this.exchanges[e].holidays[h])) {
+                    this.exchanges[e].thirty.push(this.exchanges[e].holidays[h]);
+                }
+            }
+        }
+    }
+
     testingfunction(): any {
-        // this.weekBuilder(0);
-        console.log(this.checkFutureHoliday(0, "May 18, 2017"));
+        // for (var e = 0; e < this.exchanges.length; e++) {
+        //     this.holidayBuilder(e);
+        // }
+        this.holidayBuilder();
+        for (var e = 0; e < this.exchanges.length; e++) {
+            console.log(this.exchanges[e].name);
+            console.log(this.exchanges[e].thirty);
+        }
     }
 }
