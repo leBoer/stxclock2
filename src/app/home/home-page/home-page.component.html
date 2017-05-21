@@ -3,27 +3,16 @@
     <div class="row">
       <h3>30-Day Stock Exchange Holidays</h3>
     </div>
-    <div class="row holidays" id="NV">
-      <p>Euronext</p>
+    
+    <div class="row holidays" *ngFor="let exchange of exchanges" id="{{exchange.ticker}}">
+      <p>{{exchange.name}}</p>
       <div class="col-12 ind-holidays">
-        <ul>
-          <li>Dec 25 Christmas Day</li>
-          <li>Dec 26 Boxing Day</li>
+        <ul class="days">
+          <li *ngFor="let holiday of exchange.thirty">{{holiday}}</li>
         </ul>
       </div>
     </div>
-    <div class="row holidays" id="HKEX">
-      <p>Hong Kong Stock Exchange</p>
-      <div class="col-12 ind-holidays">
-        <ul>
-          <li>May 30 Tuen Ng Festival</li>
-          <li>Oct 2 After National Day</li>
-          <li>Oct 5 After Mid-Autumn Festival</li>
-          <li>Dec 25 Christmas Day</li>
-          <li>Dec 26 After Christmas Day</li>
-        </ul>
-      </div>
-    </div>
+
     <button (click)="buttonTest()">TestButton</button>
   </div>
   <div class="col-md-9 col-12">

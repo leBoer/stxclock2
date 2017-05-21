@@ -175,21 +175,20 @@ export class ClockService {
 
     // Builds an array for the 30-day holiday calendar
     holidayBuilder(): void {
-        for (var e = 0; e < this.exchanges.length; e++) {
-            this.exchanges[e].thirty =[];
-            for (var h = 0; h < this.exchanges[e].holidays.length; h++) {
-                if (this.checkFutureHoliday(e, this.exchanges[e].holidays[h])) {
-                    this.exchanges[e].thirty.push(this.exchanges[e].holidays[h]);
+        if (typeof this != 'undefined' && typeof this.exchanges !== 'undefined' && this.exchanges.length > 5) {
+            for (var e = 0; e < this.exchanges.length; e++) {
+                this.exchanges[e].thirty =[];
+                for (var h = 0; h < this.exchanges[e].holidays.length; h++) {
+                    if (this.checkFutureHoliday(e, this.exchanges[e].holidays[h])) {
+                        this.exchanges[e].thirty.push(this.exchanges[e].holidays[h]);
+                    }
                 }
             }
         }
     }
 
     testingfunction(): any {
-        // for (var e = 0; e < this.exchanges.length; e++) {
-        //     this.holidayBuilder(e);
-        // }
-        this.holidayBuilder();
+        console.log(this.exchanges.length);
         for (var e = 0; e < this.exchanges.length; e++) {
             console.log(this.exchanges[e].name);
             console.log(this.exchanges[e].thirty);

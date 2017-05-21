@@ -9,8 +9,8 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
-    "preinstall": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
-    "start": "pm2 start --attach dist/server.js"
+    "prestart": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
+    "start": "node dist/server.js"
   },
   "private": true,
   "dependencies": {
@@ -40,7 +40,9 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-sequence": "^0.4.6",
+    "jade": "^1.11.0",
     "jquery": "^3.2.1",
+    "memory-cache": "^0.1.6",
     "moment": "2.18.1",
     "moment-timezone": "0.5.13",
     "pm2": "^2.4.6",

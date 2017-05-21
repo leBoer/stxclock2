@@ -14,11 +14,14 @@ const PORT = process.env.PORT || 4000;
 enableProdMode();
 
 const app = express();
-const cache = require('route-cache');
+// const cache = require('route-cache');
 const compression = require('compression');
+const mcache = require('memory-cache');
 
 app.use(compression());
 
+app.use('/', express.static('dist', {index: false}));
+// app.set('view engine', 'jade');
 let template = readFileSync(join(__dirname, '..', 'dist', 'index.html')).toString();
 
 app.engine('html', (_, options, callback) => {
@@ -31,19 +34,59 @@ app.engine('html', (_, options, callback) => {
 app.set('view engine', 'html');
 app.set('views', 'src')
 
-app.use('/', express.static('dist', {index: false}));
+var cache = (duration) => {
+  return (req, res, next) => {
+    let key = '__express__' + req.originalUrl || req.url
+    let cachedBody = mcache.get(key)
+    if (cachedBody) {
+      console.log('There is a cachedBody')
+      res.send(cachedBody)
+      return
+    } else {
+      console.log('There is not a cachedBody')
+      res.sendResponse = res.send
+      res.send = (body) => {
+        mcache.put(key, body, duration *1000);
+        res.sendResponse(body)
+      }
+      next()
+    }
+  }
+}
 
-ROUTES.forEach(route => {
-  app.get(route, cache.cacheSeconds(3600), function(req, res) {
-    console.time(`GET: ${req.originalUrl}`);
-    console.log('you will only see this every hour');
+// app.get('/', cache(10), (req, res) => {
+//   setTimeout(() => {
+//     res.render('index', { title: 'Hey', message: 'Hello there', date: new Date()})
+//   }, 5000)
+// })
+
+app.get('/', cache(60), function(req, res) {
+  setTimeout(() => {
     res.render('../dist/index', {
       req: req,
       res: res
     });
     console.timeEnd(`GET: ${req.originalUrl}`);
-  });
+  }, 5000);
 });
+
+app.use((req, res) => {
+  res.status(404).send('') // not found
+})
+
+
+
+// ROUTES.forEach(route => {
+//   app.get(route, cache.cacheSeconds(3600), function(req, res) {
+//     console.time(`GET: ${req.originalUrl}`);
+//     console.log('you will only see this every hour');
+//     res.render('../dist/index', {
+//       req: req,
+//       res: res
+//     });
+//     console.timeEnd(`GET: ${req.originalUrl}`);
+//   });
+// });
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
