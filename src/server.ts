@@ -14,8 +14,9 @@ const PORT = process.env.PORT || 4000;
 enableProdMode();
 
 const app = express();
-const cache = require('route-cache');
+// const cache = require('route-cache');
 const compression = require('compression');
+const mcache = require('memory-cache');
 
 app.use(compression());
 
@@ -33,17 +34,47 @@ app.set('views', 'src')
 
 app.use('/', express.static('dist', {index: false}));
 
-ROUTES.forEach(route => {
-  app.get(route, cache.cacheSeconds(3600), function(req, res) {
-    console.time(`GET: ${req.originalUrl}`);
-    console.log('you will only see this every hour');
+var cache = (duration) => {
+  return (req, res, next) => {
+    let key = '__express__' + req.originalUrl || req.url
+    let cachedBody = mcache.get(key)
+    if (cachedBody) {
+      console.log('There is a cachedBody')
+      res.send(cachedBody)
+      return
+    } else {
+      console.log('There is not a cachedBody')
+      res.sendResponse = res.send
+      res.send = (body) => {
+        mcache.put(key, body, duration *1000);
+        res.sendResponse(body)
+      }
+      next()
+    }
+  }
+}
+
+app.get('/', cache(86400), function(req, res) {
+  setTimeout(() => {
     res.render('../dist/index', {
       req: req,
       res: res
     });
-    console.timeEnd(`GET: ${req.originalUrl}`);
-  });
-});
+    console.timeEnd(`GET: ${req.origialUrl}`);
+  }, 4000);
+})
+
+// ROUTES.forEach(route => {
+//   app.get(route, cache.cacheSeconds(3600), function(req, res) {
+//     console.time(`GET: ${req.originalUrl}`);
+//     console.log('you will only see this every hour');
+//     res.render('../dist/index', {
+//       req: req,
+//       res: res
+//     });
+//     console.timeEnd(`GET: ${req.originalUrl}`);
+//   });
+// });
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
