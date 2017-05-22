@@ -54,14 +54,25 @@ var cache = (duration) => {
   }
 }
 
-app.get('/', cache(86400), function(req, res) {
-  setTimeout(() => {
-    res.render('../dist/index', {
-      req: req,
-      res: res
-    });
-    console.timeEnd(`GET: ${req.origialUrl}`);
-  }, 4000);
+// app.get('/', cache(86400), function(req, res) {
+//   setTimeout(() => {
+//     res.render('../dist/index', {
+//       req: req,
+//       res: res
+//     });
+//     console.timeEnd(`GET: ${req.origialUrl}`);
+//   }, 4000);
+// })
+
+ROUTES.forEach(route => {
+  app.get(route, cache(86400), function(req, res) {
+    setTimeout(() => {
+      res.render('../dist/index', {
+        req: req,
+        res: res
+      });
+    }, 4000);
+  })
 })
 
 // ROUTES.forEach(route => {
