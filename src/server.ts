@@ -17,6 +17,8 @@ const app = express();
 // const cache = require('route-cache');
 const compression = require('compression');
 const mcache = require('memory-cache');
+// For the http get request: //
+const https = require('https');
 
 app.use(compression());
 
@@ -54,12 +56,6 @@ var cache = (duration) => {
   }
 }
 
-// app.get('/', cache(10), (req, res) => {
-//   setTimeout(() => {
-//     res.render('index', { title: 'Hey', message: 'Hello there', date: new Date()})
-//   }, 5000)
-// })
-
 app.get('/', cache(60), function(req, res) {
   setTimeout(() => {
     res.render('../dist/index', {
@@ -74,8 +70,6 @@ app.use((req, res) => {
   res.status(404).send('') // not found
 })
 
-
-
 // ROUTES.forEach(route => {
 //   app.get(route, cache.cacheSeconds(3600), function(req, res) {
 //     console.time(`GET: ${req.originalUrl}`);
@@ -87,6 +81,63 @@ app.use((req, res) => {
 //     console.timeEnd(`GET: ${req.originalUrl}`);
 //   });
 // });
+
+// Caching the JSON response //
+let getExchanges = function() {
+  https.get('https://stxclockapi.com/stxclock/api/exchanges.json', (res) => {
+    const { statusCode } = res;
+    const contentType = res.headers['content-type'];
+    
+    let error;
+    if (statusCode !== 200) {
+      error = new Error(`Request Failed.\n` +
+                        `Status Code: ${statusCode}`);
+    } else if (!/^application\/json/.test(contentType)) {
+      error = new Error(`Invalid content-type.\n` +
+                      `Expected application/json but received ${contentType}`);
+    }
+    if (error) {
+      console.error(error.message);
+      // consume response data to free up memory
+      res.resume();
+      return;
+    }
+
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        console.log(parsedData);
+      } catch (e) {
+        console.error(e.message);
+      }
+    });
+  }).on('error', (e) => {
+    console.error(`Got error: ${e.message}`);
+  });
+  // http.get({
+  //   hostname: 'stxclockapi.com',
+  //   path: '/stxclock/api/exchanges.json',
+  //   agent: false
+  // }, (res) => {
+  //   console.log(res.results);
+  // });
+}
+
+setTimeout(() => {
+  getExchanges();
+}, 5000)
+
+// setInterval(() => {
+//   app.get('https://stxclockapi.com/stxclock/api/exchanges.json', cache(60), function(req, res) {
+//     setTimeout(() => {
+//       console.log(res);
+//     }, 5000);
+//   });
+
+// }, 10000)
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
