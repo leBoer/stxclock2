@@ -9,6 +9,7 @@ import { join } from 'path';
 
 import { ROUTES } from './routes';
 const PORT = process.env.PORT || 4000;
+const cacheDuration = 60*60*24*7;
 
 
 enableProdMode();
@@ -60,7 +61,7 @@ var cache = (duration) => {
   }
 }
 
-app.get('/', cache(60*60), function(req, res) {
+app.get('/', cache(cacheDuration), function(req, res) {
   setTimeout(() => {
     res.render('../dist/index', {
       req: req,
@@ -70,7 +71,7 @@ app.get('/', cache(60*60), function(req, res) {
   }, 3000);
 });
 
-app.get('/about', cache(60*60), function(req, res) {
+app.get('/about', cache(cacheDuration), function(req, res) {
   setTimeout(() => {
     res.render('../dist/index', {
       req: req,
@@ -80,7 +81,7 @@ app.get('/about', cache(60*60), function(req, res) {
   }, 3000);
 });
 
-app.get('/contact', cache(60*60), function(req, res) {
+app.get('/contact', cache(cacheDuration), function(req, res) {
   setTimeout(() => {
     res.render('../dist/index', {
       req: req,
@@ -90,7 +91,7 @@ app.get('/contact', cache(60*60), function(req, res) {
   }, 3000);
 });
 
-app.get('/api', cache(10), function(req, res) {
+app.get('/api', cache(cacheDuration), function(req, res) {
   setTimeout(() => {
     res.json({
       exchanges: mcache.get('exchanges')
