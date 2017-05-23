@@ -15,6 +15,10 @@ export class ClockService {
     fetchExchanges(): void {
         this.exchangeService.getExchanges()
             .then(exchanges => this.exchanges = exchanges);
+        console.log('test');
+        setTimeout(() => {
+            console.log(this.exchanges);
+        }, 3000)
     }
 
     utcTime(exchanges): any {

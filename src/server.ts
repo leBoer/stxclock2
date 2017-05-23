@@ -14,16 +14,20 @@ const PORT = process.env.PORT || 4000;
 enableProdMode();
 
 const app = express();
-// const cache = require('route-cache');
 const compression = require('compression');
 const mcache = require('memory-cache');
-// For the http get request: //
 const https = require('https');
+const cors = require('cors')
 
 app.use(compression());
-
+// app.use(cors());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
 app.use('/', express.static('dist', {index: false}));
-// app.set('view engine', 'jade');
+
 let template = readFileSync(join(__dirname, '..', 'dist', 'index.html')).toString();
 
 app.engine('html', (_, options, callback) => {
@@ -34,7 +38,7 @@ app.engine('html', (_, options, callback) => {
 });
 
 app.set('view engine', 'html');
-app.set('views', 'src')
+app.set('views', 'src');
 
 var cache = (duration) => {
   return (req, res, next) => {
@@ -56,29 +60,56 @@ var cache = (duration) => {
   }
 }
 
-app.get('/', cache(60), function(req, res) {
+app.get('/', cache(60*60), function(req, res) {
   setTimeout(() => {
     res.render('../dist/index', {
       req: req,
       res: res
     });
     console.timeEnd(`GET: ${req.originalUrl}`);
-  }, 5000);
+  }, 3000);
 });
+
+app.get('/about', cache(60*60), function(req, res) {
+  setTimeout(() => {
+    res.render('../dist/index', {
+      req: req,
+      res: res
+    });
+    console.timeEnd(`GET: ${req.originalUrl}`);
+  }, 3000);
+});
+
+app.get('/contact', cache(60*60), function(req, res) {
+  setTimeout(() => {
+    res.render('../dist/index', {
+      req: req,
+      res: res
+    });
+    console.timeEnd(`GET: ${req.originalUrl}`);
+  }, 3000);
+});
+
+app.get('/api', cache(10), function(req, res) {
+  setTimeout(() => {
+    res.json({
+      exchanges: mcache.get('exchanges')
+    });
+  }, 3000)
+})
 
 app.use((req, res) => {
   res.status(404).send('') // not found
 })
 
 // ROUTES.forEach(route => {
-//   app.get(route, cache.cacheSeconds(3600), function(req, res) {
-//     console.time(`GET: ${req.originalUrl}`);
-//     console.log('you will only see this every hour');
-//     res.render('../dist/index', {
-//       req: req,
-//       res: res
-//     });
-//     console.timeEnd(`GET: ${req.originalUrl}`);
+//   app.get(route, cache(60*60*24*7), function(req, res) {
+//     setTimeout(() => {
+//       res.render('../dist/index', {
+//         req: req,
+//         res: res
+//       });
+//     }, 3000);
 //   });
 // });
 
@@ -110,6 +141,7 @@ let getExchanges = function() {
       try {
         const parsedData = JSON.parse(rawData);
         console.log(parsedData);
+        mcache.put('exchanges', parsedData, 1000*60*60);
       } catch (e) {
         console.error(e.message);
       }
@@ -117,27 +149,13 @@ let getExchanges = function() {
   }).on('error', (e) => {
     console.error(`Got error: ${e.message}`);
   });
-  // http.get({
-  //   hostname: 'stxclockapi.com',
-  //   path: '/stxclock/api/exchanges.json',
-  //   agent: false
-  // }, (res) => {
-  //   console.log(res.results);
-  // });
 }
 
-setTimeout(() => {
+getExchanges();
+
+setInterval(() => {
   getExchanges();
-}, 5000)
-
-// setInterval(() => {
-//   app.get('https://stxclockapi.com/stxclock/api/exchanges.json', cache(60), function(req, res) {
-//     setTimeout(() => {
-//       console.log(res);
-//     }, 5000);
-//   });
-
-// }, 10000)
+}, 1000*60*60)
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
