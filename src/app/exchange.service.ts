@@ -7,14 +7,14 @@ import { Exchange } from './exchange';
 
 @Injectable()
 export class ExchangeService {
-  private exchangesUrl = 'https://stxclockapi.com/stxclock/api/exchanges.json';
+  private exchangesUrl = '/api';
 
   constructor(private http: Http) {}
 
   getExchanges(): Promise<Exchange[]> {
     return this.http.get(this.exchangesUrl)
       .toPromise()
-      .then(response => response.json().results as Exchange[])
+      .then(response => response.json().exchanges.results as Exchange[])
       .catch(this.handleError);
   }
 

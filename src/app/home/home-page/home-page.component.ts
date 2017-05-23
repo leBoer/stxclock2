@@ -41,7 +41,7 @@ export class HomePageComponent implements OnInit {
       setInterval(() => {
         this.myDate = this.clockService.utcTime(this.exchanges)[0];
         this.exchanges = this.clockService.utcTime(this.exchanges)[1];
-      }, 1000);
+      }, 100);
 
       this.clockService.fetchExchanges();
     }

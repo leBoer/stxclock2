@@ -9,16 +9,22 @@ import { join } from 'path';
 
 import { ROUTES } from './routes';
 const PORT = process.env.PORT || 4000;
+const cacheDuration = 60*60*24*7;
 
 
 enableProdMode();
 
 const app = express();
-// const cache = require('route-cache');
 const compression = require('compression');
 const mcache = require('memory-cache');
+const https = require('https');
 
 app.use(compression());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
 
 let template = readFileSync(join(__dirname, '..', 'dist', 'index.html')).toString();
 
@@ -54,18 +60,16 @@ var cache = (duration) => {
   }
 }
 
-// app.get('/', cache(86400), function(req, res) {
-//   setTimeout(() => {
-//     res.render('../dist/index', {
-//       req: req,
-//       res: res
-//     });
-//     console.timeEnd(`GET: ${req.origialUrl}`);
-//   }, 4000);
-// })
+app.get('/api', cache(cacheDuration), function(req, res) {
+  setTimeout(() => {
+    res.json({
+      exchanges: mcache.get('exchanges')
+    });
+  }, 3000)
+})
 
 ROUTES.forEach(route => {
-  app.get(route, cache(86400), function(req, res) {
+  app.get(route, cache(cacheDuration), function(req, res) {
     setTimeout(() => {
       res.render('../dist/index', {
         req: req,
@@ -75,17 +79,53 @@ ROUTES.forEach(route => {
   })
 })
 
-// ROUTES.forEach(route => {
-//   app.get(route, cache.cacheSeconds(3600), function(req, res) {
-//     console.time(`GET: ${req.originalUrl}`);
-//     console.log('you will only see this every hour');
-//     res.render('../dist/index', {
-//       req: req,
-//       res: res
-//     });
-//     console.timeEnd(`GET: ${req.originalUrl}`);
-//   });
-// });
+app.use((req, res) => {
+  res.status(404).send('') // not found
+})
+
+// Caching the JSON response //
+let getExchanges = function() {
+  https.get('https://stxclockapi.com/stxclock/api/exchanges.json', (res) => {
+    const { statusCode } = res;
+    const contentType = res.headers['content-type'];
+    
+    let error;
+    if (statusCode !== 200) {
+      error = new Error(`Request Failed.\n` +
+                        `Status Code: ${statusCode}`);
+    } else if (!/^application\/json/.test(contentType)) {
+      error = new Error(`Invalid content-type.\n` +
+                      `Expected application/json but received ${contentType}`);
+    }
+    if (error) {
+      console.error(error.message);
+      // consume response data to free up memory
+      res.resume();
+      return;
+    }
+
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        console.log(parsedData);
+        mcache.put('exchanges', parsedData, 1000*60*60);
+      } catch (e) {
+        console.error(e.message);
+      }
+    });
+  }).on('error', (e) => {
+    console.error(`Got error: ${e.message}`);
+  });
+}
+
+getExchanges();
+
+setInterval(() => {
+  getExchanges();
+}, 1000*60*60)
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
