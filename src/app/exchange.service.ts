@@ -8,6 +8,7 @@ import { Exchange } from './exchange';
 @Injectable()
 export class ExchangeService {
   private exchangesUrl = '/api';
+  // private exchangesUrllocal = 'https://stxclockapi.com/stxclock/api/exchanges.json';
 
   constructor(private http: Http) {}
 

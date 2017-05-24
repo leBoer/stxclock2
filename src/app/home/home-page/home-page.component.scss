@@ -37,7 +37,7 @@ p {
 /*Phones up to, but not including iPad*/
 @media screen and (max-width: 767px) {
   .name {
-    font-size: 1em;
+    font-size: 0.9em;
   }
   .full-width {
     height: 5em;
@@ -68,10 +68,16 @@ p {
     font-size: 0.8em;
   }
 }
-/*For the smallest phones*/
+/* For the smallest phones except iPhone 5*/
 @media screen and (max-width: 375px) {
   .name {
     font-size: 0.75em;
+  }
+}
+/* iPhone 5 */
+@media screen and (max-width: 375px) {
+  .name {
+    font-size: 0.65em;
   }
 }
 /*Ipad and up*/
