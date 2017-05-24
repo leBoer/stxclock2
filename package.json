@@ -45,7 +45,6 @@
     "moment": "2.18.1",
     "moment-timezone": "0.5.13",
     "pm2": "^2.4.6",
-    "route-cache": "^0.4.1",
     "rxjs": "^5.3.0",
     "ts-loader": "^2.0.3",
     "ts-node": "^3.0.2",
