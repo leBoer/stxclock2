@@ -14,8 +14,7 @@ import { ClockService } from "../../clock.service";
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-  exchanges: Exchange[] = [];
-  myDate: Date;
+  exchanges: Exchange[];
   meCheck: boolean = false;
 
   constructor( @Inject(PLATFORM_ID) private platformId: string,
@@ -34,20 +33,24 @@ export class HomePageComponent implements OnInit {
       console.log('This is a Browser')
 
 
-      this.exchangeService.getExchanges()
+      this.clockService.fetchExchanges()
         .then(exchanges => this.exchanges = exchanges);
       
-      this.clockService.utcTime(this.exchanges);
+      // this.clockService.utcTime(this.exchanges)
+      //   .then(exchanges => this.exchanges = exchanges);
+
       setInterval(() => {
-        this.myDate = this.clockService.utcTime(this.exchanges)[0];
-        this.exchanges = this.clockService.utcTime(this.exchanges)[1];
+        this.exchanges = this.clockService.utcTime(this.exchanges);
       }, 100);
 
-      this.clockService.fetchExchanges();
+      // this.exchanges = this.clockService.utcTime2(this.exchanges);
+
+      // this.clockService.fetchExchanges();
     }
   }
 
   buttonTest(): any {
+    console.log(this.exchanges);
     this.clockService.testingfunction();
   }
 }
