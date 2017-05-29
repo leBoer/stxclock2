@@ -5,7 +5,8 @@ import { PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 import { Exchange } from '../../exchange';
-import { ExchangeService } from '../../exchange.service';
+import { Name } from '../../name';
+// import { ExchangeService } from '../../exchange.service';
 import { ClockService } from "../../clock.service";
 
 @Component({
@@ -15,10 +16,11 @@ import { ClockService } from "../../clock.service";
 })
 export class HomePageComponent implements OnInit {
   exchanges: Exchange[];
+  names: Name[];
   meCheck: boolean = false;
 
   constructor( @Inject(PLATFORM_ID) private platformId: string,
-    private exchangeService: ExchangeService,
+    // private exchangeService: ExchangeService,
     private clockService: ClockService
   ) {
 
@@ -27,7 +29,13 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  getNames(): void {
+    this.clockService.getNames()
+      .then(names => this.names = names);
+  }
+
   ngOnInit() {
+    this.getNames();
 
     if (isPlatformBrowser(this.platformId)) {
       console.log('This is a Browser')

@@ -1,5 +1,8 @@
 <div class="row test-row">
   <button (click)="buttonTest()">TestButton</button>
+  <div *ngFor="let name of names">
+    {{name.ticker}}
+  </div>
   <div class="col-12 col-md-4 full-width" *ngFor="let exchange of exchanges | sortBy : 'name'" [ngClass]="{'module-open': exchange.open_status, 'module-closed': !exchange.open_status}">
     <div class="row test-row2">
       <div class="col-7 col-md-12 name-block">

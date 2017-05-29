@@ -8,6 +8,9 @@ import 'rxjs/add/operator/toPromise'
 import { Exchange } from './exchange';
 import { HomePageComponent } from './home/home-page/home-page.component';
 
+import { Name } from './name'
+import { NAMES } from './names'
+
 @Injectable()
 export class ClockService {
     myDate: Date;
@@ -26,6 +29,10 @@ export class ClockService {
 
     private handleError(error: any): Promise<any> {
         return Promise.reject(error.message || error);
+    }
+
+    getNames(): Promise<Name[]> {
+        return Promise.resolve(NAMES);
     }
 
     // utcTime2(exchanges): Promise<Exchange[]> {
