@@ -25,6 +25,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 })
+app.use('/', express.static('dist', {index: false}));
 
 let template = readFileSync(join(__dirname, '..', 'dist', 'index.html')).toString();
 
@@ -36,9 +37,7 @@ app.engine('html', (_, options, callback) => {
 });
 
 app.set('view engine', 'html');
-app.set('views', 'src')
-
-app.use('/', express.static('dist', {index: false}));
+app.set('views', 'src');
 
 var cache = (duration) => {
   return (req, res, next) => {

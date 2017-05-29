@@ -8,7 +8,6 @@ import { Exchange } from './exchange';
 @Injectable()
 export class ExchangeService {
   private exchangesUrl = '/api';
-  // private exchangesUrllocal = 'https://stxclockapi.com/stxclock/api/exchanges.json';
 
   constructor(private http: Http) {}
 
@@ -27,4 +26,5 @@ export class ExchangeService {
     return this.getExchanges()
       .then(exchanges => exchanges.find(exchange => exchange.id === id));
   }
+
 }

@@ -20,4 +20,5 @@ export class Exchange {
   afterRemaining: any;
   week: any;
   holidays: any;
+  thirty: any;
 }

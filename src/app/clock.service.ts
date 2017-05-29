@@ -15,6 +15,10 @@ export class ClockService {
     fetchExchanges(): void {
         this.exchangeService.getExchanges()
             .then(exchanges => this.exchanges = exchanges);
+        console.log('test');
+        setTimeout(() => {
+            console.log(this.exchanges);
+        }, 3000)
     }
 
     utcTime(exchanges): any {
@@ -161,12 +165,37 @@ export class ClockService {
         }
     }
 
+    // Checks if a holiday is in the future, and less than 30 days away
+    checkFutureHoliday(exchange, day): boolean {
+        var exchangeDate = this.nonUTCTime(this.exchanges[exchange].timezone);
+        var holiday = moment(day, 'MMMM DD, YYYY');
+        var diffDays = holiday.diff(exchangeDate, 'days');
+        if (diffDays < 0) {
+            return false;
+        } else if (diffDays >= 0 && diffDays <= 30) {
+            return true;
+        }
+    }
+
+    // Builds an array for the 30-day holiday calendar
+    holidayBuilder(): void {
+        if (typeof this != 'undefined' && typeof this.exchanges !== 'undefined' && this.exchanges.length > 5) {
+            for (var e = 0; e < this.exchanges.length; e++) {
+                this.exchanges[e].thirty =[];
+                for (var h = 0; h < this.exchanges[e].holidays.length; h++) {
+                    if (this.checkFutureHoliday(e, this.exchanges[e].holidays[h])) {
+                        this.exchanges[e].thirty.push(this.exchanges[e].holidays[h]);
+                    }
+                }
+            }
+        }
+    }
+
     testingfunction(): any {
-        // this.weekBuilder(0);
-        console.log(this.exchanges[0].week);
-        console.log(this.exchanges);
-        for (var i = 0; i < this.exchanges.length; i++) {
-            console.log(this.exchanges[i].week);
+        console.log(this.exchanges.length);
+        for (var e = 0; e < this.exchanges.length; e++) {
+            console.log(this.exchanges[e].name);
+            console.log(this.exchanges[e].thirty);
         }
     }
 }
