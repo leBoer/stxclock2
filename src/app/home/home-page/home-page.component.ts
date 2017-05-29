@@ -8,24 +8,6 @@ import { Exchange } from '../../exchange';
 import { Name } from '../../name';
 import { ClockService } from "../../clock.service";
 
-export class Name {
-  ticker: string;
-  name: string;
-}
-const NAMES: Name[] = [
-  { ticker: 'NV', name: 'Euronext'},
-  { ticker: 'FWB', name: 'Frankfurt Stock Exchange'},
-  { ticker: 'HKEX', name: 'Hong Kong Stock Exchange'},
-  { ticker: 'KRX', name: 'Korea Exchange'},
-  { ticker: 'LSE', name: 'London Stock Exchange'},
-  { ticker: 'NASDAQ', name: 'NASDAQ'},
-  { ticker: 'NYSE', name: 'New York Stock Exchange'},
-  { ticker: 'OSE', name: 'Oslo Stock Exchange'},
-  { ticker: 'SIX', name: 'SIX Swiss Exchange'},
-  { ticker: 'SSE', name: 'Shanghai Stock Exchange'},
-  { ticker: 'SZSE', name: 'Shenzhen Stock Exchange'},
-  { ticker: 'TSE', name: 'Tokyo Stock Exchange'},
-];
 
 @Component({
   selector: 'app-home-page',
@@ -36,7 +18,6 @@ export class HomePageComponent implements OnInit {
   exchanges: Exchange[];
   names: Name[];
   meCheck: boolean = false;
-  names = NAMES;
 
 
   constructor( @Inject(PLATFORM_ID) private platformId: string,
@@ -79,12 +60,12 @@ export class HomePageComponent implements OnInit {
     console.log(this.exchanges);
     this.clockService.testingfunction();
   }
-  launchCalender() {
-    let timer = setInterval(() => {
-      if (typeof this.exchanges !== 'undefined' && this.exchanges.length > 5) {
-        this.clockService.holidayBuilder();
-        clearInterval(timer);
-      }
-    }, 1000);
-  }
+  // launchCalender() {
+  //   let timer = setInterval(() => {
+  //     if (typeof this.exchanges !== 'undefined' && this.exchanges.length > 5) {
+  //       this.clockService.holidayBuilder();
+  //       clearInterval(timer);
+  //     }
+  //   }, 1000);
+  // }
 }
