@@ -8,7 +8,6 @@ import { homeRoutes } from './home-router.module';
 
 
 import { ClockService } from '../clock.service';
-import { ExchangeService } from '../exchange.service';
 import { SortPipe } from '../sort.pipe';
 import { TickerPipe } from '../ticker.pipe';
 
@@ -23,6 +22,6 @@ import { TickerPipe } from '../ticker.pipe';
     SortPipe,
     TickerPipe
   ],
-  providers: [ExchangeService, ClockService]
+  providers: [ClockService]
 })
 export class HomeModule { }

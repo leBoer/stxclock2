@@ -1,35 +1,53 @@
 import { Injectable } from '@angular/core';
+import { Headers, Http, Response } from '@angular/http';
 import { MomentModule } from 'angular2-moment';
 import * as moment from 'moment-timezone';
 
+import 'rxjs/add/operator/toPromise'
+
 import { Exchange } from './exchange';
-import { ExchangeService } from './exchange.service';
+import { HomePageComponent } from './home/home-page/home-page.component';
+
+import { Name } from './name'
+import { NAMES } from './names'
 
 @Injectable()
 export class ClockService {
     myDate: Date;
-    exchanges: Exchange[] =[];
+    exchanges: Exchange[];
+    private exchangesUrl = 'https://stxclockapi.com/stxclock/api/exchanges.json';
 
-    constructor(private exchangeService: ExchangeService) { }
+    constructor(private http: Http) { }
 
-    fetchExchanges(): void {
-        this.exchangeService.getExchanges()
-            .then(exchanges => this.exchanges = exchanges);
-        console.log('test');
-        setTimeout(() => {
-            console.log(this.exchanges);
-        }, 3000)
+    fetchExchanges(): Promise<Exchange[]> {
+        console.log('Promise fired');
+        return this.http.get(this.exchangesUrl)
+            .toPromise()
+            .then(response => response.json().results as Exchange[])
+            .catch(this.handleError);
+    }
+
+    private handleError(error: any): Promise<any> {
+        return Promise.reject(error.message || error);
+    }
+
+    getNames(): Promise<Name[]> {
+        return Promise.resolve(NAMES);
     }
 
     utcTime(exchanges): any {
+        this.exchanges = exchanges;
         this.exchangeTimes(exchanges);
-        for (var i = 0; i < exchanges.length; i++) {
-            this.weekBuilder(i);
-            this.exchangeOpenStatus(i);
-            this.exchanges[i].remaining = this.exchangeRemaining(i);
+        if (typeof exchanges !== 'undefined') {
+            for (var i = 0; i < exchanges.length; i++) {
+                this.weekBuilder(i);
+                this.exchangeOpenStatus(i);
+                if (typeof exchanges[i] !== 'undefined') {
+                    this.exchanges[i].remaining = this.exchangeRemaining(i);
+                }
+            }
         }
-     
-        return [this.myDate = new Date, this.exchanges];
+        return this.exchanges;
     }
 
     nonUTCTime(timezone): any {
@@ -38,23 +56,27 @@ export class ClockService {
     }
 
     exchangeTimes(exchanges): any {
-        for (var i = 0; i < exchanges.length; i++) {
-            var exchange = exchanges[i]; // Sets a variable for easier access to individual exchanges
-            exchange.time = this.nonUTCTime(exchange.timezone).format("ddd HH:mm:ss");
-            exchange.day = this.nonUTCTime(exchange.timezone).format("dddd");
+        if (typeof exchanges !== 'undefined') {
+            for (var i = 0; i < exchanges.length; i++) {
+                var exchange = exchanges[i]; // Sets a variable for easier access to individual exchanges
+                exchange.time = this.nonUTCTime(exchange.timezone).format("ddd HH:mm:ss");
+                exchange.day = this.nonUTCTime(exchange.timezone).format("dddd");
+            }
         }
     }
 
     exchangeOpenStatus(i): any {
-        var format = 'hh:mm:ss';
-        var exchange = this.exchanges[i]; // Sets a variable for easier access to individual exchanges
-        var time = moment(exchange.time, format),
-            beforeTime = moment(exchange.opening_time, format),
-            afterTime = moment(exchange.closing_time, format);
-        if ((this.exchanges[i].week[0] || this.exchanges[i].week.length == 0) && time.isBetween(beforeTime, afterTime)) {
-            exchange.open_status = true;
-        } else {
-            exchange.open_status = false;
+        if (typeof this.exchanges !== 'undefined') {
+            var format = 'hh:mm:ss';
+            var exchange = this.exchanges[i]; // Sets a variable for easier access to individual exchanges
+            var time = moment(exchange.time, format),
+                beforeTime = moment(exchange.opening_time, format),
+                afterTime = moment(exchange.closing_time, format);
+            if ((this.exchanges[i].week[0] || this.exchanges[i].week.length == 0) && time.isBetween(beforeTime, afterTime)) {
+                exchange.open_status = true;
+            } else {
+                exchange.open_status = false;
+            }
         }
     }
 
@@ -112,25 +134,27 @@ export class ClockService {
     }
 
     exchangeRemaining(i): any {
-        var w = this.exchanges[i].week; // For easier access
-        if (this.exchanges[i].open_status == true) {
-            return this.openRemaining(i);
-        } else {
-            if (this.morningClosed(i) && w.length == 0) { // Open today, but before opening time
-                // console.log(this.exchanges[i].name);
-                return this.morningRemaining(i);
-            } else if (this.eveningClosed(i) && w.length == 1) { // After closing time, but open today and tomorrow
-                // console.log(this.exchanges[i].name);
-                return this.eveningRemaining(i);
-            } else if (this.eveningClosed(i) && w[0] && !w[1] && w.length >=2) { // After closing, open today, but not tomorrow
-                // console.log(this.exchanges[i].name);
-                return this.weekendRemaining(i, w.length);
-            } else if (!w[0] && !w[1] && w.length >=2) { // today is closed and tomorrow is also closed...
-                // console.log(this.exchanges[i].name);
-                return this.weekendRemaining(i, w.length);
-            } else if (!w[0] && w.length == 1) { // closed today, open tomorrow
-                // console.log(this.exchanges[i].name);
-                return this.eveningRemaining(i);
+        if (typeof this.exchanges[i] !== 'undefined') {
+            var w = this.exchanges[i].week; // For easier access
+            if (this.exchanges[i].open_status == true) {
+                return this.openRemaining(i);
+            } else {
+                if (this.morningClosed(i) && w.length == 0) { // Open today, but before opening time
+                    // console.log(this.exchanges[i].name);
+                    return this.morningRemaining(i);
+                } else if (this.eveningClosed(i) && w.length == 1) { // After closing time, but open today and tomorrow
+                    // console.log(this.exchanges[i].name);
+                    return this.eveningRemaining(i);
+                } else if (this.eveningClosed(i) && w[0] && !w[1] && w.length >=2) { // After closing, open today, but not tomorrow
+                    // console.log(this.exchanges[i].name);
+                    return this.weekendRemaining(i, w.length);
+                } else if (!w[0] && !w[1] && w.length >=2) { // today is closed and tomorrow is also closed...
+                    // console.log(this.exchanges[i].name);
+                    return this.weekendRemaining(i, w.length);
+                } else if (!w[0] && w.length == 1) { // closed today, open tomorrow
+                    // console.log(this.exchanges[i].name);
+                    return this.eveningRemaining(i);
+                }
             }
         }
     }
@@ -153,14 +177,16 @@ export class ClockService {
     // Builds an array for the upcoming non-trading days
     // False = Closed, True = Open
     weekBuilder(i): void {
-        this.exchanges[i].week = [];
-        for (var h = 0; h < this.exchanges[i].holidays.length + 14; h++) {
-            if (this.checkHoliday(i, h)) {
-                this.exchanges[i].week.push(false);
-            } else if (this.eveningClosed(i) && h == 0) {
-                this.exchanges[i].week.push(true);
-            } else {
-                return;
+        if (typeof this.exchanges !== 'undefined') {
+            this.exchanges[i].week = [];
+            for (var h = 0; h < this.exchanges[i].holidays.length + 14; h++) {
+                if (this.checkHoliday(i, h)) {
+                    this.exchanges[i].week.push(false);
+                } else if (this.eveningClosed(i) && h == 0) {
+                    this.exchanges[i].week.push(true);
+                } else {
+                    return;
+                }
             }
         }
     }
@@ -192,10 +218,12 @@ export class ClockService {
     }
 
     testingfunction(): any {
-        console.log(this.exchanges.length);
-        for (var e = 0; e < this.exchanges.length; e++) {
-            console.log(this.exchanges[e].name);
-            console.log(this.exchanges[e].thirty);
-        }
+        console.log('test');
+        console.log(this.exchanges);
+        // console.log(this.exchanges[0].week);
+        // console.log(this.exchanges);
+        // for (var i = 0; i < this.exchanges.length; i++) {
+        //     console.log(this.exchanges[i].week);
+        // }
     }
 }

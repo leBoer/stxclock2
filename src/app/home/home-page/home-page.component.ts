@@ -5,7 +5,7 @@ import { PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 import { Exchange } from '../../exchange';
-import { ExchangeService } from '../../exchange.service';
+import { Name } from '../../name';
 import { ClockService } from "../../clock.service";
 
 export class Name {
@@ -33,40 +33,40 @@ const NAMES: Name[] = [
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-  exchanges: Exchange[] = [];
-  myDate: Date;
+  exchanges: Exchange[];
+  names: Name[];
   meCheck: boolean = false;
   names = NAMES;
 
 
   constructor( @Inject(PLATFORM_ID) private platformId: string,
-    private exchangeService: ExchangeService,
     private clockService: ClockService
   ) {
     let checkIfBrowser = isPlatformBrowser(platformId);
     console.log('Check If Browser', checkIfBrowser)
   }
 
+  getNames(): void {
+    this.clockService.getNames()
+      .then(names => this.names = names);
+  }
+
   ngOnInit() {
+    this.getNames();
 
     if (isPlatformBrowser(this.platformId)) {
       console.log('This is a Browser')
 
 
-      this.exchangeService.getExchanges()
-        .then(exchanges => this.exchanges = exchanges)
-        .catch(this.handleError);
+      this.clockService.fetchExchanges()
+        .then(exchanges => this.exchanges = exchanges);
       
-      this.clockService.utcTime(this.exchanges);
+      // this.clockService.utcTime(this.exchanges)
+      //   .then(exchanges => this.exchanges = exchanges);
 
       setInterval(() => {
-        this.myDate = this.clockService.utcTime(this.exchanges)[0];
-        this.exchanges = this.clockService.utcTime(this.exchanges)[1];
+        this.exchanges = this.clockService.utcTime(this.exchanges);
       }, 100);
-
-      this.clockService.fetchExchanges();
-      this.launchCalender();
-
     }
   }
 
@@ -76,6 +76,7 @@ export class HomePageComponent implements OnInit {
   };
 
   buttonTest(): any {
+    console.log(this.exchanges);
     this.clockService.testingfunction();
   }
   launchCalender() {
