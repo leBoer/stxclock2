@@ -35,23 +35,6 @@ export class ClockService {
         return Promise.resolve(NAMES);
     }
 
-    // utcTime2(exchanges): Promise<Exchange[]> {
-    //     this.exchanges = exchanges;
-    //     this.exchangeTimes(exchanges);
-    //     if (typeof exchanges !== 'undefined') {
-    //         for (var i = 0; i < exchanges.length; i++) {
-    //             this.weekBuilder(i);
-    //             this.exchangeOpenStatus(i);
-    //             if (typeof exchanges[i] !== 'undefined') {
-    //                 this.exchanges[i].remaining = this.exchangeRemaining(i);
-    //             }
-    //         }
-    //     }
-    //     return this.exchanges
-    //         .toPromise()
-    //         .then(res => res.json().results as Exchange[];
-    // }
-
     utcTime(exchanges): any {
         this.exchanges = exchanges;
         this.exchangeTimes(exchanges);

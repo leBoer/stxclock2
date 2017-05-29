@@ -1,37 +1,33 @@
 <div class="row test-row">
-  <button (click)="buttonTest()">TestButton</button>
-  <div *ngFor="let name of names">
-    {{name.ticker}}
-  </div>
-  <div class="col-12 col-md-4 full-width" *ngFor="let exchange of exchanges | sortBy : 'name'" [ngClass]="{'module-open': exchange.open_status, 'module-closed': !exchange.open_status}">
+  <div class="col-12 col-md-4 full-width" *ngFor="let name of names">
     <div class="row test-row2">
       <div class="col-7 col-md-12 name-block">
         <div class="row">
-          <div class="col-12 name-div">
-            <p class="name">{{exchange.name}}</p>
+          <div class="col-12 name-div" *ngIf="name">
+            <p class="name">{{name.name}}</p>
           </div>
         </div>
         <div class="row">
-          <div class="col-12 status-div">
-            <p class="status status-open" *ngIf="exchange.open_status == true">
+          <div class="col-12 status-div" *ngIf="exchanges">
+            <p class="status status-open" *ngIf="exchanges[name.id-1]?.open_status == true">
               <i class="fa fa-circle-o" aria-hidden="true"></i>
               Open and closing in:
             </p>
-            <p class="status status-closed" *ngIf="exchange.open_status == false">
+            <p class="status status-closed" *ngIf="exchanges[name.id-1].open_status == false">
               <i class="fa fa-circle-o" aria-hidden="true"></i>
               Closed and opening in:
             </p>
           </div>
         </div>
-        <div class="row time-div">
-          <p class="current-time">Current time: {{exchange.time}}</p>
+        <div class="row time-div" *ngIf="exchanges">
+          <p class="current-time">Current time: {{exchanges[name.id-1].time}}</p>
         </div>
       </div>
-      <div class="col-5 col-md-12 countdown-block">
-        <p class="countdown">{{exchange.remaining}}</p>
+      <div class="col-5 col-md-12 countdown-block" *ngIf="exchanges">
+        <p class="countdown">{{exchanges[name.id-1].remaining}}</p>
       </div>
-      <div class="hidden-sm-down col-md-12">
-        <p class="current-time-md">Local time: {{exchange.time}}</p>
+      <div class="hidden-sm-down col-md-12" *ngIf="exchanges">
+        <p class="current-time-md">Local time: {{exchanges[name.id-1].time}}</p>
       </div>
     </div>
   </div>

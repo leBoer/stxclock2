@@ -6,7 +6,6 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 import { Exchange } from '../../exchange';
 import { Name } from '../../name';
-// import { ExchangeService } from '../../exchange.service';
 import { ClockService } from "../../clock.service";
 
 @Component({
@@ -20,7 +19,6 @@ export class HomePageComponent implements OnInit {
   meCheck: boolean = false;
 
   constructor( @Inject(PLATFORM_ID) private platformId: string,
-    // private exchangeService: ExchangeService,
     private clockService: ClockService
   ) {
 

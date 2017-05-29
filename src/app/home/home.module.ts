@@ -8,7 +8,6 @@ import { homeRoutes } from './home-router.module';
 
 
 import { ClockService } from '../clock.service';
-import { ExchangeService } from '../exchange.service';
 import { SortPipe } from '../sort.pipe';
 
 @NgModule({
@@ -21,6 +20,6 @@ import { SortPipe } from '../sort.pipe';
     HomePageComponent,
     SortPipe
   ],
-  providers: [ExchangeService, ClockService]
+  providers: [ClockService]
 })
 export class HomeModule { }
