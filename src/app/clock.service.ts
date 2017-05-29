@@ -15,15 +15,14 @@ import { NAMES } from './names'
 export class ClockService {
     myDate: Date;
     exchanges: Exchange[];
-    private exchangesUrl = 'https://stxclockapi.com/stxclock/api/exchanges.json';
-
+    private exchangesUrl = '/api'; 
     constructor(private http: Http) { }
 
     fetchExchanges(): Promise<Exchange[]> {
         console.log('Promise fired');
         return this.http.get(this.exchangesUrl)
             .toPromise()
-            .then(response => response.json().results as Exchange[])
+            .then(response => response.json().exchanges.results as Exchange[])
             .catch(this.handleError);
     }
 

@@ -47,7 +47,7 @@ export class HomePageComponent implements OnInit {
 
       setInterval(() => {
         this.exchanges = this.clockService.utcTime(this.exchanges);
-      }, 100);
+      }, 500);
     }
   }
 
@@ -57,7 +57,6 @@ export class HomePageComponent implements OnInit {
   };
 
   buttonTest(): any {
-    console.log(this.exchanges);
     this.clockService.testingfunction();
   }
   // launchCalender() {
