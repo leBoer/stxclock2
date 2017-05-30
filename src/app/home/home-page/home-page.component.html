@@ -1,10 +1,12 @@
 <div class="row test-row">
-  <div class="col-12 col-md-4 full-width" *ngFor="let name of names">
+  <div class="col-12 col-md-4 full-width" *ngFor="let name of names | sortBy: 'name'">
     <div class="row test-row2">
       <div class="col-7 col-md-12 name-block">
         <div class="row">
           <div class="col-12 name-div" *ngIf="name">
             <p class="name">{{name.name}}</p>
+            <p class="test">{{name.id}}</p>
+            <p class="test">{{exchanges[name.id-1].id}}</p>
           </div>
         </div>
         <div class="row">

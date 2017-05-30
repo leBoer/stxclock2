@@ -15,7 +15,7 @@ import { NAMES } from './names'
 export class ClockService {
     myDate: Date;
     exchanges: Exchange[];
-    private exchangesUrl = '/api'; 
+    private exchangesUrl = 'https://stxclock.com/api'; 
     constructor(private http: Http) { }
 
     fetchExchanges(): Promise<Exchange[]> {
