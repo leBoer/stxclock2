@@ -19,11 +19,16 @@ export class ClockService {
     constructor(private http: Http) { }
 
     fetchExchanges(): Promise<Exchange[]> {
-        console.log('Promise fired');
+        // console.log('Promise fired');
         return this.http.get(this.exchangesUrl)
             .toPromise()
             .then(response => response.json().exchanges.results as Exchange[])
             .catch(this.handleError);
+    }
+
+    getExchange(ticker: string): Promise<Exchange> {
+        return this.fetchExchanges()
+            .then(exchanges => exchanges.find(exchange => exchange.ticker === ticker));
     }
 
     private handleError(error: any): Promise<any> {
@@ -32,6 +37,11 @@ export class ClockService {
 
     getNames(): Promise<Name[]> {
         return Promise.resolve(NAMES);
+    }
+
+    getName(ticker: string): Promise<Name> {
+        return this.getNames()
+            .then(names => names.find(name => name.ticker === ticker));
     }
 
     utcTime(exchanges): any {
@@ -204,7 +214,7 @@ export class ClockService {
 
     // Builds an array for the 30-day holiday calendar
     holidayBuilder(): void {
-        if (typeof this != 'undefined' && typeof this.exchanges !== 'undefined' && this.exchanges.length > 5) {
+        if (typeof this != 'undefined' && typeof this.exchanges !== 'undefined' && this.exchanges.length > 1) {
             for (var e = 0; e < this.exchanges.length; e++) {
                 this.exchanges[e].thirty =[];
                 for (var h = 0; h < this.exchanges[e].holidays.length; h++) {
