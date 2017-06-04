@@ -1,5 +1,5 @@
 <div class="row test-row">
-  <div class="col-12 col-md-4 full-width" *ngFor="let name of names | sortBy: 'name'" [routerLink]="['/exchange', name.ticker]">
+  <div class="col-12 col-md-4 full-width" *ngFor="let name of names | sortBy: 'name'" (click)="gotoExchange(name.ticker)">
     <div class="row test-row2">
       <div class="col-7 col-md-12 name-block">
         <div class="row">

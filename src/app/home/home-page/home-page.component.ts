@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-
+import { Router } from '@angular/router';
 import { PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
@@ -16,12 +16,14 @@ import { ClockService } from "../../clock.service";
 })
 export class HomePageComponent implements OnInit {
   exchanges: Exchange[];
+  selectedExchange: Exchange;
   names: Name[];
   meCheck: boolean = false;
 
 
   constructor( @Inject(PLATFORM_ID) private platformId: string,
-    private clockService: ClockService
+    private clockService: ClockService,
+    private router: Router
   ) {
     let checkIfBrowser = isPlatformBrowser(platformId);
     console.log('Check If Browser', checkIfBrowser)
@@ -55,6 +57,14 @@ export class HomePageComponent implements OnInit {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   };
+
+  onSelect(exchange: Exchange): void {
+    this.selectedExchange = exchange;
+  }
+
+  gotoExchange(ticker): void {
+    this.router.navigate(['/exchange', ticker]);
+  }
 
   buttonTest(): any {
     this.clockService.testingfunction();

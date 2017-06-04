@@ -41,8 +41,10 @@ app.set('views', 'src');
 app.use('/', express.static('dist', {index: false}));
 
 var cache = (duration) => {
+  console.log('Testing if var cache gets hit');
   return (req, res, next) => {
     let key = '__express__' + req.originalUrl || req.url
+    console.log(key);
     let cachedBody = mcache.get(key)
     if (cachedBody) {
       console.log('There is a cachedBody')
@@ -51,7 +53,10 @@ var cache = (duration) => {
     } else {
       console.log('There is not a cachedBody')
       res.sendResponse = res.send
+      // console.log('This is the res.sendResponse' + res.sendResponse);
       res.send = (body) => {
+        console.log('This is the body')
+        console.log(body)
         mcache.put(key, body, duration *1000);
         res.sendResponse(body)
       }
@@ -67,6 +72,16 @@ app.get('/api', cache(cacheDuration), function(req, res) {
     });
   }, 3000)
 })
+
+// app.get('/exchange/NYSE', cache(cacheDuration), function(req, res) {
+//   console.log('Testing if app.get /exchange/NV gets hit');
+//   setTimeout(() => {
+//     res.render('../dist/index', {
+//       req: req,
+//       res: res
+//     });
+//   }, 4000);
+// })
 
 ROUTES.forEach(route => {
   app.get(route, cache(cacheDuration), function(req, res) {
@@ -110,6 +125,7 @@ let getExchanges = function() {
     res.on('end', () => {
       try {
         const parsedData = JSON.parse(rawData);
+        console.log('This is the parsedData')
         console.log(parsedData);
         mcache.put('exchanges', parsedData, 1000*60*60);
       } catch (e) {

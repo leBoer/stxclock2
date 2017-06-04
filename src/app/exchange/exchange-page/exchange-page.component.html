@@ -3,9 +3,36 @@
         <div class="col-12 text-center">
             <h1 class="name">{{name.name}}</h1>
         </div>
-        <div class="col-12 text-center" *ngIf="exchange">
-            <h3>Countdown until:</h3>
-            <h2>{{exchange.remaining}}</h2>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <!--<div id="background">
+            <i class="fa fa-circle-o" aria-hidden="true"></i>
+        </div>-->
+            <div class="row">
+                <div class="col-12 text-center" *ngIf="exchange">
+                    <h3 class="status-open" *ngIf="exchange.open_status == true">
+                        <i class="fa fa-circle-o" aria-hidden="true"></i> Currently Open
+                        <i class="fa fa-circle-o" aria-hidden="true"></i>
+                    </h3>
+                    <h3 class="status-closed" *ngIf="exchange.open_status == false">
+                        <i class="fa fa-circle-o" aria-hidden="true"></i> Currently Closed
+                        <i class="fa fa-circle-o" aria-hidden="true"></i>
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center" *ngIf="exchange">
+                    <h3 *ngIf="exchange.open_status == false">Time until opening:</h3>
+                    <h3 *ngIf="exchange.open_status == true">Time until closing:</h3>
+                    <h2>{{exchange.remaining}}</h2>
+                </div>
+            </div>
+            <div class="row" *ngIf="name">
+                <div class="col-12 text-center">
+                    <h3>{{name.name}} Holidays 2017</h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>

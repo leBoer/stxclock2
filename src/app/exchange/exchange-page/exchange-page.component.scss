@@ -1,4 +1,4 @@
-* {
+body {
     font-family: 'Roboto', sans-serif;
 }
 h1 {
@@ -14,4 +14,10 @@ h2 {
 h3 {
     font-weight: 500;
     font-size: 20px;
+}
+.status-open .fa {
+    color: #76c9dd;
+}
+.status-closed .fa {
+    color: #FF3B3F;
 }

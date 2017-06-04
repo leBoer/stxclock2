@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Location } from '@angular/common';
+// import { Location } from '@angular/common';
 
 import { ClockService } from '../../clock.service';
 import { Name } from '../../name';
@@ -22,10 +22,11 @@ export class ExchangePageComponent implements OnInit {
     constructor(
         private clockService: ClockService,
         private route: ActivatedRoute,
-        private location: Location
+        // private location: Location
     ) { }
 
     ngOnInit(): void {
+        console.log('Starting ngOnInit from ExchangePageComponent')
         this.route.params
             .switchMap((params: Params) => this.clockService.getName(params['ticker']))
             .subscribe(name => this.name = name);
