@@ -23,7 +23,7 @@ export { AppComponent, TitleComponent, MetaDescriptionComponent };
       { path: '', loadChildren: './home/home.module#HomeModule' },
       { path: 'about', loadChildren: './about/about.module#AboutModule' },
       { path: 'contact', loadChildren: './contact/contact.module#ContactModule'},
-      { path: 'exchange/:ticker', loadChildren: './exchange/exchange.module#ExchangeModule'},
+      { path: 'exchange', loadChildren: './exchange/exchange.module#ExchangeModule'},
       { path: '**', redirectTo: '', pathMatch: 'full' },
     ], { preloadingStrategy: PreloadAllModules })
   ],

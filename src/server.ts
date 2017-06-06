@@ -54,9 +54,9 @@ var cache = (duration) => {
       console.log('There is not a cachedBody')
       res.sendResponse = res.send
       // console.log('This is the res.sendResponse' + res.sendResponse);
+      // console.log('This is the body')
       res.send = (body) => {
-        console.log('This is the body')
-        console.log(body)
+        console.log('Is this reachable code?');
         mcache.put(key, body, duration *1000);
         res.sendResponse(body)
       }

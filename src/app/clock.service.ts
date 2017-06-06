@@ -213,8 +213,8 @@ export class ClockService {
     }
 
     // Builds an array for the 30-day holiday calendar
-    holidayBuilder(): void {
-        if (typeof this != 'undefined' && typeof this.exchanges !== 'undefined' && this.exchanges.length > 1) {
+    holidayBuilder(exchangeArray): void {
+        if (typeof this != 'undefined' && typeof this.exchanges !== 'undefined' && this.exchanges.length > 0) {
             for (var e = 0; e < this.exchanges.length; e++) {
                 this.exchanges[e].thirty =[];
                 for (var h = 0; h < this.exchanges[e].holidays.length; h++) {

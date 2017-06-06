@@ -23,7 +23,7 @@ export class HomePageComponent implements OnInit {
 
   constructor( @Inject(PLATFORM_ID) private platformId: string,
     private clockService: ClockService,
-    private router: Router
+    // private router: Router
   ) {
     let checkIfBrowser = isPlatformBrowser(platformId);
     console.log('Check If Browser', checkIfBrowser)
@@ -62,9 +62,9 @@ export class HomePageComponent implements OnInit {
     this.selectedExchange = exchange;
   }
 
-  gotoExchange(ticker): void {
-    this.router.navigate(['/exchange', ticker]);
-  }
+  // gotoExchange(ticker): void {
+  //   this.router.navigate(['/exchange', ticker]);
+  // }
 
   buttonTest(): any {
     this.clockService.testingfunction();

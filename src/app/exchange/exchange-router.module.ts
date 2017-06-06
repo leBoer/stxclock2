@@ -14,7 +14,7 @@ export const exchangeRoutes: Routes = [
   { path: '',
      component: ExchangeMainComponent,
      children: [
-         {  path: '',
+         {  path: ':ticker',
             children:[
                 { path: '', component: ExchangePageComponent},
             ]
