@@ -43,6 +43,7 @@
     "gulp-sequence": "^0.4.6",
     "jade": "^1.11.0",
     "jquery": "^3.2.1",
+    "latest-version": "^3.1.0",
     "memory-cache": "^0.1.6",
     "moment": "2.18.1",
     "moment-timezone": "0.5.13",
