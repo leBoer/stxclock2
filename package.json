@@ -9,7 +9,8 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
-    "preinstall": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
+    "preinstall": "npm install pm2 -g",
+    "postinstall": "ng build --prod && gulp before:ngc && ngc && gulp after:ngc && webpack",
     "start": "pm2 start --attach dist/server.js"
   },
   "private": true,
