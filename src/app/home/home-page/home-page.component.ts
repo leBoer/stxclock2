@@ -49,7 +49,6 @@ export class HomePageComponent implements OnInit {
 
       setInterval(() => {
         this.exchanges = this.clockService.utcTime(this.exchanges);
-        console.log(this.exchanges[1].open_status);
       }, 500);
     }
   }

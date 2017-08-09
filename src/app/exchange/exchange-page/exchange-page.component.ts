@@ -45,6 +45,7 @@ export class ExchangePageComponent implements OnInit {
                     this.exchangeArray.push(this.exchange);
                     this.exchangeArray = this.clockService.utcTime(this.exchangeArray) ;
                     this.exchange = this.exchangeArray[0];
+                    // console.log(this.clockService.evaluateHolidays(this.exchange).future);
                 }
             }, 300);
         }

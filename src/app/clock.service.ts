@@ -226,6 +226,31 @@ export class ClockService {
         }
     }
 
+    evaluateHolidays(exchange): any {
+        var future = [];
+        var present = [];
+        var past = [];
+        var exchangeDate = this.nonUTCTime(exchange.timezone);
+        for (var e = 0; e < exchange.holidays.length; e++) {
+            var holiday = moment(exchange.holidays[e], 'MMMM DD, YYYY');
+            var diffDays = holiday.diff(exchangeDate, 'days');
+            if (diffDays < 0) {
+                past.push(exchange.holidays[e]);
+            } else if (diffDays == 0) {
+                present.push(exchange.holidays[e]);
+            } else if (diffDays > 0) {
+                future.push(exchange.holidays[e]);
+            } else {
+                console.log('Error, cannot evaluate holidays');
+            }
+        }
+        return {
+            future: future,
+            present: present,
+            past: past
+        };
+    }
+
     testingfunction(): any {
         console.log('test');
         console.log(this.exchanges);
