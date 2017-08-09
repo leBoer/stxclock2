@@ -7,7 +7,7 @@ import { ClockService } from '../../clock.service';
 import { Name } from '../../name';
 import { Exchange } from '../../exchange';
 
-import { Observable } from 'rxjs/rx'
+// import { Observable } from 'rxjs/rx'
 import 'rxjs/add/operator/switchMap';
 
 @Component({
