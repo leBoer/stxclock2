@@ -12,13 +12,9 @@
         </div>
         <div class="row">
           <div class="col-12 status-div" *ngIf="exchanges">
-            <p class="status status-open" *ngIf="exchanges[name.id-1]?.open_status == true">
+            <p class="status" [ngClass]="exchanges[name.id-1].open_status ? 'status-open': 'status-closed'">
               <i class="fa fa-circle-o" aria-hidden="true"></i>
-              Open and closing in:
-            </p>
-            <p class="status status-closed" *ngIf="exchanges[name.id-1].open_status == false">
-              <i class="fa fa-circle-o" aria-hidden="true"></i>
-              Closed and opening in:
+              {{exchanges[name.id-1].open_status ? 'Open and closing in:' : 'Closed and opening in:' }}
             </p>
           </div>
         </div>
